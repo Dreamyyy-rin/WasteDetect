@@ -1,0 +1,10 @@
+# Python
+.venv/
+.conda/
+.env/
+.env.*
+
+# Node
+node_modules/
+dist/
+build/
