@@ -1,0 +1,238 @@
+/* Hero.css */
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  padding: 140px 40px 80px 40px;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  overflow: hidden;
+}
+
+.hero-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* ----- BAGIAN KIRI: Visual Grid ----- */
+.hero-visual-left {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.clean-grid {
+  display: grid;
+  /* Ukuran kolom tetap */
+  grid-template-columns: 200px 240px;
+  
+  /* --- PERBAIKAN 1: ALIGNMENT --- */
+  /* Kita paksa tinggi baris mengikuti kartu tertinggi (gambar) */
+  grid-template-rows: 260px 260px; 
+  /* Ini kuncinya: memaksa item yang lebih pendek (info card 210px) 
+     untuk berada persis di tengah-tengah baris 260px */
+  align-items: center; 
+
+  gap: 20px;
+}
+
+/* Base Card Style */
+.grid-card {
+  border-radius: 32px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  /* Pastikan kartu mengisi penuh area yang diberikan grid */
+  width: 100%; 
+}
+
+.grid-card:hover {
+  transform: translateY(-5px);
+}
+
+/* --- 1. Top Left (Info) --- */
+.card-info-tl {
+  background: #fff7ed;
+  border: 1px solid #f1cfa6;
+  padding: 24px;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  /* Tinggi tetap 210px, tapi sekarang dia akan ditengahkan oleh parent grid */
+  height: 210px; 
+  /* align-self: center; <- INI DIHAPUS KARENA SUDAH DIHANDLE PARENT */
+}
+
+.card-title {
+  font-weight: 600;
+  color: #5b4630;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+/* Badge group umum (untuk yang atas) */
+.badge-group {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.badge {
+  padding: 5px 12px; /* Sedikit diperbesar paddingnya biar lebih rapi */
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.5px;
+  white-space: nowrap; /* Mencegah teks badge terpotong */
+}
+.orange { background: #d67d52; }
+.brown { background: #7d5a3d; }
+.dark { background: #5c4029; }
+
+/* --- 2. Top Right (Image) --- */
+.card-img-tr {
+  background: #eee;
+  /* Tinggi ini yang jadi patokan baris grid */
+  height: 260px;
+}
+
+/* --- 3. Bottom Left (Info) --- */
+.card-info-bl {
+  background: #fff7ed;
+  border: 1px solid #f1cfa6;
+  padding: 24px;
+  justify-content: center;
+  text-align: center;
+  gap: 4px; /* Gap antar elemen dikurangi sedikit */
+  height: 210px;
+}
+
+/* --- PERBAIKAN 2: BADGE RAPI --- */
+/* Khusus untuk badge group di kartu kiri bawah */
+.card-info-bl .badge-group {
+    flex-wrap: wrap; /* Biarkan turun baris kalau tidak muat */
+    row-gap: 8px; /* Jarak antar baris badge */
+    column-gap: 6px; /* Jarak antar kolom badge */
+    margin-top: 12px; /* Tambah jarak dari teks di atasnya */
+    padding: 0 10px; /* Sedikit padding kiri kanan agar tidak mepet pinggir */
+}
+
+.big-num {
+  font-size: 36px;
+  font-weight: 800;
+  color: #1f1a17;
+  line-height: 1;
+}
+.card-desc {
+  font-size: 14px;
+  color: #7b6d60;
+  font-weight: 500;
+}
+
+/* --- 4. Bottom Right (Image - Waste Pile) --- */
+.card-img-br {
+  background: #333;
+  height: 260px;
+}
+
+
+/* Image styling helpers */
+.fill-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ----- BAGIAN KANAN: Teks ----- */
+.hero-content-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #2d2520;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #5c4a3e;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  max-width: 90%;
+}
+
+.hero-cta-primary {
+  align-self: flex-start;
+  background: linear-gradient(135deg, #7d5a3d 0%, #5c4029 100%);
+  color: white;
+  padding: 18px 36px;
+  border-radius: 50px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(125, 90, 61, 0.25);
+}
+
+.hero-cta-primary:hover {
+  background: linear-gradient(135deg, #5c4029 0%, #7d5a3d 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(125, 90, 61, 0.35);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero {
+    padding-top: 120px;
+    align-items: flex-start;
+  }
+  .hero-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 60px;
+  }
+  .hero-visual-left {
+    justify-content: center;
+    order: 2;
+  }
+  .hero-content-right {
+    order: 1;
+    align-items: center;
+  }
+  .hero-subtitle {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .clean-grid {
+    grid-template-columns: 1fr;
+    /* Di HP, biarkan tingginya otomatis */
+    grid-template-rows: auto;
+    width: 100%;
+    gap: 20px;
+  }
+  /* Di HP, kita beri tinggi fix yang sama untuk semua kartu agar rapi */
+  .grid-card, .card-info-tl, .card-info-bl, .card-img-tr, .card-img-br {
+    height: 220px;
+  }
+}

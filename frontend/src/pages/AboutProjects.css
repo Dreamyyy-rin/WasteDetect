@@ -1,0 +1,262 @@
+.about-page {
+  min-height: 100vh;
+  background: transparent;
+  padding-top: 5rem;
+}
+
+
+.about-hero {
+  padding: 4rem 3rem;
+  background: linear-gradient(135deg, #f5f0e8 0%, #fff7ed 100%);
+  text-align: center;
+}
+
+.about-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1f1a17;
+  margin: 0 0 1rem 0;
+  letter-spacing: -1px;
+}
+
+.page-subtitle {
+  font-size: 1.25rem;
+  color: #5b4630;
+  margin: 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+
+.section-heading {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1f1a17;
+  text-align: center;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.5px;
+}
+
+.section-description {
+  font-size: 1.125rem;
+  color: #5b4630;
+  text-align: center;
+  margin: 0 0 3rem 0;
+}
+
+
+.project-overview {
+  padding: 5rem 3rem;
+  background: #ffffff;
+}
+
+.overview-text {
+  font-size: 1.125rem;
+  color: #5b4630;
+  line-height: 1.8;
+  max-width: 1500px;
+  margin: 2rem auto 0;
+  text-align: justify;
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.feature-card {
+  background: #fff7ed;
+  border: 1px solid #f1cfa6;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(125, 90, 61, 0.15);
+}
+
+.feature-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1rem;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f1a17;
+  margin: 0;
+}
+
+
+.team-section {
+  padding: 5rem 3rem;
+  background: transparent;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.team-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  border: 2px solid #ead9c4;
+  box-shadow: 0 4px 20px rgba(104, 72, 35, 0.08);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-8px);
+  border-color: #7d5a3d;
+  box-shadow: 0 12px 40px rgba(125, 90, 61, 0.2);
+}
+
+.team-avatar {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, #7d5a3d 0%, #5c4029 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(125, 90, 61, 0.3);
+}
+
+.avatar-placeholder {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.team-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f1a17;
+  margin: 0;
+}
+
+
+.tech-stack-section {
+  padding: 5rem 3rem;
+  background: #ffffff;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.tech-item {
+  background: #fff7ed;
+  border: 1px solid #f1cfa6;
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.tech-item:hover {
+  transform: translateX(8px);
+  background: white;
+  box-shadow: 0 4px 15px rgba(125, 90, 61, 0.15);
+}
+
+.tech-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #7d5a3d 0%, #5c4029 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.tech-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f1a17;
+}
+
+
+@media (max-width: 768px) {
+  .about-page {
+    padding-top: 4rem;
+  }
+
+  .about-hero {
+    padding: 3rem 1.5rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
+  .section-heading {
+    font-size: 1.75rem;
+  }
+
+  .project-overview,
+  .team-section,
+  .tech-stack-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .overview-text {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+}
