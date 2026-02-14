@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import io
 import json
+import os
 
 import cv2
 from fastapi import FastAPI, File, Form, UploadFile, WebSocket
@@ -14,9 +15,16 @@ except ImportError:  # Allows running `python main.py` directly.
 
 app = FastAPI(title="Waste Detection API")
 
+def _get_allowed_origins() -> list[str]:
+    raw = os.getenv("ALLOWED_ORIGINS")
+    if not raw:
+        return ["http://localhost:5173", "http://127.0.0.1:5173"]
+    return [origin.strip() for origin in raw.split(",") if origin.strip()]
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=_get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

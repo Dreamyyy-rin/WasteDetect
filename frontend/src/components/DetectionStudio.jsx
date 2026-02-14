@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./DetectionStudio.css";
 
+const apiBase = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(
+  /\/+$/,
+  "",
+);
+
 const DetectionStudio = () => {
   const [activeTab, setActiveTab] = useState("image");
   const [selectedModel, setSelectedModel] = useState("YOLOv13");
@@ -129,7 +134,7 @@ const DetectionStudio = () => {
 
       // Use different endpoint for video
       const endpoint = activeTab === "video" ? "detect-video" : "detect";
-      const response = await fetch(`http://localhost:8000/${endpoint}`, {
+      const response = await fetch(`${apiBase}/${endpoint}`, {
         method: "POST",
         body: formData,
       });
