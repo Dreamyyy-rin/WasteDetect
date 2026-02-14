@@ -19,15 +19,25 @@
   justify-content: space-between;
 }
 
+.navbar-logo a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-logo .logo-img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
 .navbar-logo h2 {
   font-size: 1.75rem;
   font-weight: 700;
   color: #7d5a3d;
   margin: 0;
   letter-spacing: -0.5px;
-}
-.navbar-logo a {
-  text-decoration: none;
 }
 .navbar-menu {
   display: flex;

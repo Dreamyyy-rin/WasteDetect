@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
+import logo from "../assets/TerraSight.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ const Navbar = () => {
       <div className="navbar-container">
         <div className="navbar-logo">
           <Link to="/">
+            <img src={logo} alt="TerraSight Logo" className="logo-img" />
             <h2>TerraSight</h2>
           </Link>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./DetectionStudio.css";
 
 const DetectionStudio = () => {
@@ -7,6 +7,57 @@ const DetectionStudio = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isDetecting, setIsDetecting] = useState(false);
+  const [detectionResult, setDetectionResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [videoFrames, setVideoFrames] = useState([]);
+  const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [videoMetadata, setVideoMetadata] = useState(null);
+  const changeFileInputRef = useRef(null);
+
+  // Reset state when switching tabs
+  useEffect(() => {
+    setUploadedFile(null);
+    setPreviewUrl(null);
+    setDetectionResult(null);
+    setError(null);
+    setIsDragging(false);
+    setVideoFrames([]);
+    setCurrentFrameIndex(0);
+    setIsPlaying(false);
+    setVideoMetadata(null);
+  }, [activeTab]);
+
+  // Video playback effect
+  useEffect(() => {
+    if (!isPlaying || videoFrames.length === 0) return;
+
+    const interval = setInterval(() => {
+      setCurrentFrameIndex((prev) => {
+        const next = prev + 1;
+        if (next >= videoFrames.length) {
+          setIsPlaying(false);
+          return 0;
+        }
+        return next;
+      });
+    }, 100); // ~10 FPS playback for smoother result
+
+    return () => clearInterval(interval);
+  }, [isPlaying, videoFrames.length]);
+
+  // Update detection result when frame index changes
+  useEffect(() => {
+    if (videoFrames.length > 0 && videoFrames[currentFrameIndex] && videoMetadata) {
+      setDetectionResult({
+        ...videoFrames[currentFrameIndex],
+        total_frames: videoMetadata.total_frames,
+        processed_frames: videoFrames.length,
+        current_frame: currentFrameIndex + 1
+      });
+    }
+  }, [currentFrameIndex, videoFrames, videoMetadata]);
 
   const handleFileUpload = (file) => {
     if (file) {
@@ -44,19 +95,86 @@ const DetectionStudio = () => {
     const file = e.target.files[0];
     if (file) {
       handleFileUpload(file);
+      // Reset detection result when changing file
+      setDetectionResult(null);
+      setVideoFrames([]);
+      setVideoMetadata(null);
     }
   };
 
-  const handleDetection = () => {
-  
-    console.log("Running detection with model:", selectedModel);
-    console.log("Input type:", activeTab);
-    console.log("File:", uploadedFile);
+  const handleChangeFile = () => {
+    if (changeFileInputRef.current) {
+      changeFileInputRef.current.click();
+    }
+  };
+
+  const handleDetection = async () => {
+    if (!uploadedFile) {
+      setError(`Please upload ${activeTab === "video" ? "a video" : "an image"} first`);
+      return;
+    }
+
+    setIsDetecting(true);
+    setError(null);
+    setDetectionResult(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", uploadedFile);
+
+      // Convert model name to backend format
+      const modelKey =
+        selectedModel === "YOLOv13" ? "yolo13n_clahe" : "yolo26s";
+      formData.append("model", modelKey);
+
+      // Use different endpoint for video
+      const endpoint = activeTab === "video" ? "detect-video" : "detect";
+      const response = await fetch(`http://localhost:8000/${endpoint}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Detection failed: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      // For video, store all frames and display first one
+      if (activeTab === "video" && data.frames && data.frames.length > 0) {
+        setVideoFrames(data.frames);
+        setCurrentFrameIndex(0);
+        setVideoMetadata({
+          total_frames: data.total_frames,
+          processed_frames: data.frames.length
+        });
+        setDetectionResult({
+          ...data.frames[0],
+          total_frames: data.total_frames,
+          processed_frames: data.frames.length,
+          current_frame: 1
+        });
+      } else {
+        setDetectionResult(data);
+        setVideoFrames([]);
+        setVideoMetadata(null);
+      }
+    } catch (err) {
+      console.error("Detection error:", err);
+      setError(
+        err.message ||
+          "Failed to detect. Make sure the backend server is running.",
+      );
+    } finally {
+      setIsDetecting(false);
+    }
   };
 
   const handleReset = () => {
     setUploadedFile(null);
     setPreviewUrl(null);
+    setDetectionResult(null);
+    setError(null);
   };
 
   return (
@@ -71,7 +189,6 @@ const DetectionStudio = () => {
         </div>
 
         <div className="detection-content">
-  
           <div className="model-selection">
             <label className="model-label">Select Detection Model</label>
             <div className="model-options">
@@ -208,41 +325,44 @@ const DetectionStudio = () => {
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                       >
-                        <svg
-                          width="60"
-                          height="60"
-                          viewBox="0 0 60 60"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M52.5 37.5V47.5C52.5 48.163 52.237 48.799 51.768 49.268C51.299 49.737 50.663 50 50 50H10C9.337 50 8.701 49.737 8.232 49.268C7.763 48.799 7.5 48.163 7.5 47.5V37.5"
-                            stroke="#7D5A3D"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M42.5 20L30 7.5L17.5 20"
-                            stroke="#7D5A3D"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M30 7.5V37.5"
-                            stroke="#7D5A3D"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <p className="dropzone-text">
-                          Drag and drop your {activeTab} here
+                        <div className="dropzone-icon">
+                          <svg
+                            width="30"
+                            height="30"
+                            viewBox="0 0 48 48"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M42 30V38C42 38.53 41.789 39.039 41.414 39.414C41.039 39.789 40.53 40 40 40H8C7.47 40 6.961 39.789 6.586 39.414C6.211 39.039 6 38.53 6 38V30"
+                              stroke="white"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M34 16L24 6L14 16"
+                              stroke="white"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M24 6V30"
+                              stroke="white"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                        <h3 className="dropzone-title">Click to Upload</h3>
+                        <p className="dropzone-description">
+                          Upload your image or video by clicking the button
+                          below.
                         </p>
-                        <p className="dropzone-subtext">or</p>
                         <label className="dropzone-button">
-                          Browse Files
+                          Select File
                           <input
                             type="file"
                             accept={
@@ -255,29 +375,60 @@ const DetectionStudio = () => {
                       </div>
                     ) : (
                       <div className="preview-container">
-                        {activeTab === "image" ? (
-                          <img
-                            src={previewUrl}
-                            alt="Preview"
-                            className="preview-image"
+                        <div className="preview-wrapper">
+                          {activeTab === "image" ? (
+                            <img
+                              src={previewUrl}
+                              alt="Preview"
+                              className="preview-image"
+                            />
+                          ) : (
+                            <video
+                              src={previewUrl}
+                              controls
+                              className="preview-video"
+                            />
+                          )}
+                          <button
+                            className="change-file-btn"
+                            onClick={handleChangeFile}
+                            title="Change file"
+                          >
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M1 4V10H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M23 20V14H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M20.49 9C19.9828 7.56678 19.1209 6.28536 17.9845 5.27542C16.8482 4.26548 15.4745 3.55976 13.9917 3.22426C12.5089 2.88876 10.9652 2.93434 9.50481 3.35677C8.04437 3.77921 6.71475 4.56471 5.64 5.64L1 10M23 14L18.36 18.36C17.2853 19.4353 15.9556 20.2208 14.4952 20.6432C13.0348 21.0657 11.4911 21.1112 10.0083 20.7757C8.52547 20.4402 7.1518 19.7345 6.01547 18.7246C4.87913 17.7147 4.01717 16.4332 3.51 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </button>
+                          <input
+                            ref={changeFileInputRef}
+                            type="file"
+                            accept={
+                              activeTab === "image" ? "image/*" : "video/*"
+                            }
+                            onChange={handleFileInputChange}
+                            style={{ display: "none" }}
                           />
-                        ) : (
-                          <video
-                            src={previewUrl}
-                            controls
-                            className="preview-video"
-                          />
-                        )}
-                        <button className="reset-button" onClick={handleReset}>
-                          Upload Different File
-                        </button>
+                        </div>
                       </div>
                     )}
+
+                    <button
+                      className="run-detection-button"
+                      onClick={handleDetection}
+                      disabled={!previewUrl || isDetecting}
+                    >
+                      {isDetecting ? "Detecting..." : "Start Detection"}
+                    </button>
+
+                    {error && <div className="error-message">{error}</div>}
                   </div>
 
                   <div className="result-zone">
                     <h3 className="zone-title">Detection Result</h3>
-                    <div className="result-placeholder">
+                    <div
+                      className={`result-placeholder ${detectionResult ? "has-result" : ""}`}
+                    >
                       {!previewUrl ? (
                         <>
                           <svg
@@ -299,15 +450,65 @@ const DetectionStudio = () => {
                           </svg>
                           <p>Results will appear here after detection</p>
                         </>
+                      ) : detectionResult ? (
+                        <div className="detection-results">
+                          <div className="annotated-image-container">
+                            <div className="result-image-wrapper">
+                              <img
+                                src={detectionResult.image}
+                                alt="Detection Result"
+                                className="result-image"
+                              />
+                              {activeTab === "video" && videoFrames.length > 0 && (
+                                <div className="video-overlay-controls">
+                                  <button
+                                    className="video-overlay-play-btn"
+                                    onClick={() => {
+                                      if (currentFrameIndex >= videoFrames.length - 1) {
+                                        setCurrentFrameIndex(0);
+                                      }
+                                      setIsPlaying(!isPlaying);
+                                    }}
+                                  >
+                                    {isPlaying ? (
+                                      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="12" y="8" width="6" height="24" fill="white" rx="2"/>
+                                        <rect x="22" y="8" width="6" height="24" fill="white" rx="2"/>
+                                      </svg>
+                                    ) : (
+                                      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 8L32 20L12 32V8Z" fill="white"/>
+                                      </svg>
+                                    )}
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="detection-info">
+                            <div className="info-row">
+                              <div className="info-item">
+                                <span className="info-label">Model Used:</span>
+                                <span className="info-value">
+                                  {selectedModel}
+                                </span>
+                              </div>
+                              <div className="info-item">
+                                <span className="info-label">Detected:</span>
+                                <span className="info-value count-badge">
+                                  {detectionResult.detections?.length || 0}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       ) : (
                         <>
                           <p className="ready-text">Ready for detection</p>
-                          <button
-                            className="run-detection-button"
-                            onClick={handleDetection}
-                          >
-                            Run Detection
-                          </button>
+                          <p>
+                            Click "Start Detection" to analyze the {activeTab}
+                          </p>
                         </>
                       )}
                     </div>

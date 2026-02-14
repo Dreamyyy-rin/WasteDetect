@@ -49,7 +49,7 @@ body {
   line-height: 1.6;
 }
 
-/* App Container */
+
 .app {
   min-height: 100vh;
   display: flex;
@@ -60,7 +60,7 @@ body {
   flex: 1;
 }
 
-/* Content Sections */
+
 .content-section {
   padding: 6rem 3rem;
   background: var(--color-bg-primary);
@@ -91,7 +91,7 @@ body {
   margin: 0 auto;
 }
 
-/* Footer */
+
 .footer {
   background: var(--color-text-primary);
   color: white;
@@ -111,7 +111,7 @@ body {
   opacity: 0.9;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 1024px) {
   .content-section {
     padding: 4rem 2rem;
@@ -144,7 +144,7 @@ body {
   }
 }
 
-/* Utility Classes */
+
 .text-center {
   text-align: center;
 }

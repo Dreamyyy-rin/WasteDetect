@@ -6,7 +6,7 @@
 
 .datasets-hero {
   padding: 4rem 3rem;
-  background: linear-gradient(135deg, #f5f0e8 0%, #fff7ed 100%);
+  background: linear-gradient(135deg, #8b7355 0%, #d4a574 50%, #e8c4a0 100%);
   text-align: center;
 }
 
@@ -18,14 +18,14 @@
 .page-title {
   font-size: 3rem;
   font-weight: 700;
-  color: #1f1a17;
+  color: #ffffff;
   margin: 0 0 1rem 0;
   letter-spacing: -1px;
 }
 
 .page-subtitle {
   font-size: 1.25rem;
-  color: #5b4630;
+  color: #f5f0e8;
   margin: 0;
   max-width: 600px;
   margin: 0 auto;

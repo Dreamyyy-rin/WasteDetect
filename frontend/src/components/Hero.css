@@ -58,8 +58,9 @@
   justify-content: center;
   text-align: center;
   gap: 8px;
-
   height: 210px;
+  border-radius: 32px 32px 0 32px !important;
+  align-self: end;
 }
 
 .card-title {
@@ -96,18 +97,20 @@
 
 .card-img-tr {
   background: #eee;
-
   height: 260px;
+  border-radius: 0 32px 32px 32px !important;
 }
 
 .card-info-bl {
-  background: #fff7ed;
-  border: 1px solid #f1cfa6;
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
   padding: 24px;
   justify-content: center;
   text-align: center;
   gap: 4px;
   height: 210px;
+  border-radius: 32px 0 32px 32px !important;
+  align-self: start;
 }
 
 .card-info-bl .badge-group {
@@ -133,6 +136,7 @@
 .card-img-br {
   background: #333;
   height: 260px;
+  border-radius: 32px 32px 32px 0 !important;
 }
 
 .fill-image {
