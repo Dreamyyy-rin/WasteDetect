@@ -1,5 +1,14 @@
 import React from "react";
 import "./AboutProjects.css";
+import christine from "../assets/christine.png";
+import felicia from "../assets/felicia.jpg";
+import vicko from "../assets/vicko.jpeg";
+import onnx from "../assets/onnix.png";
+import fastapi from "../assets/fastapi.png";
+import websocket from "../assets/websocket.png";
+import react from "../assets/react.png";
+import python from "../assets/python.png";
+import yolo from "../assets/yolo.png";
 
 const AboutProjects = () => {
   return (
@@ -184,22 +193,22 @@ const AboutProjects = () => {
           </p>
           <div className="team-grid">
             <div className="team-card">
-              <div className="team-avatar">
-                <span className="avatar-placeholder">CD</span>
+              <div className="team-photo">
+                <img src={christine} alt="Christine Dewi" />
               </div>
               <h3 className="team-name">Christine Dewi</h3>
             </div>
 
             <div className="team-card">
-              <div className="team-avatar">
-                <span className="avatar-placeholder">FW</span>
+              <div className="team-photo">
+                <img src={felicia} alt="Felicia Wijaya" />
               </div>
               <h3 className="team-name">Felicia Wijaya</h3>
             </div>
 
             <div className="team-card">
-              <div className="team-avatar">
-                <span className="avatar-placeholder">OE</span>
+              <div className="team-photo">
+                <img src={vicko} alt="Oivicko Ekagani Irwanto" />
               </div>
               <h3 className="team-name">Oivicko Ekagani Irwanto</h3>
             </div>
@@ -215,33 +224,70 @@ const AboutProjects = () => {
           </p>
 
           <div className="tech-grid">
-            <div className="tech-item">
-              <div className="tech-icon">YOLO</div>
-              <span className="tech-name">YOLOv13 & v26</span>
+            <div className="tech-card">
+              <div className="tech-logo">
+                <img
+                  src={yolo}
+                  alt="YOLO"
+                />
+              </div>
+              <h4 className="tech-title">YOLO</h4>
+              <p className="tech-category">Object Detection</p>
             </div>
-            <div className="tech-item">
-              <div className="tech-icon">ONNX</div>
-              <span className="tech-name">ONNX Runtime</span>
+
+            <div className="tech-card">
+              <div className="tech-logo">
+                <img
+                  src={onnx}
+                  alt="ONNX"
+                />
+              </div>
+              <h4 className="tech-title">ONNX Runtime</h4>
+              <p className="tech-category">Model Inference</p>
             </div>
-            <div className="tech-item">
-              <div className="tech-icon">CV</div>
-              <span className="tech-name">OpenCV</span>
+
+            <div className="tech-card">
+              <div className="tech-logo">
+                <img
+                  src={fastapi}
+                  alt="FastAPI"
+                />
+              </div>
+              <h4 className="tech-title">FastAPI</h4>
+              <p className="tech-category">API Framework</p>
             </div>
-            <div className="tech-item">
-              <div className="tech-icon">Py</div>
-              <span className="tech-name">Python</span>
+
+            <div className="tech-card">
+              <div className="tech-logo">
+                <img
+                  src={websocket}
+                  alt="WebSocket"
+                />
+              </div>
+              <h4 className="tech-title">WebSocket</h4>
+              <p className="tech-category">Real-time Communication</p>
             </div>
-            <div className="tech-item">
-              <div className="tech-icon">Fast</div>
-              <span className="tech-name">FastAPI</span>
+
+            <div className="tech-card">
+              <div className="tech-logo">
+                <img
+                  src={react}
+                  alt="React"
+                />
+              </div>
+              <h4 className="tech-title">React.js</h4>
+              <p className="tech-category">Frontend</p>
             </div>
-            <div className="tech-item">
-              <div className="tech-icon">WS</div>
-              <span className="tech-name">WebSocket</span>
-            </div>
-            <div className="tech-item">
-              <div className="tech-icon">React</div>
-              <span className="tech-name">React.js</span>
+
+            <div className="tech-card">
+              <div className="tech-logo">
+                <img
+                  src={python}
+                  alt="Python"
+                />
+              </div>
+              <h4 className="tech-title">Python</h4>
+              <p className="tech-category">Backend</p>
             </div>
           </div>
         </div>

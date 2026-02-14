@@ -40,7 +40,7 @@
   gap: 2rem;
 }
 
-/* Model Selection */
+
 .model-selection {
   display: flex;
   flex-direction: column;
@@ -111,7 +111,7 @@
   line-height: 1.5;
 }
 
-/* Tab System */
+
 .tab-system {
   background: white;
   border: 1px solid #ead9c4;
@@ -170,7 +170,7 @@
   min-height: 500px;
 }
 
-/* Upload and Detection Layout */
+
 .upload-detection-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -319,7 +319,7 @@
   box-shadow: 0 6px 30px rgba(125, 90, 61, 0.35);
 }
 
-/* Camera View */
+
 .camera-container {
   display: grid;
   grid-template-columns: 1.2fr 1fr;

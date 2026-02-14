@@ -1,5 +1,3 @@
-/* Hero.css */
-
 .hero {
   min-height: 100vh;
   display: flex;
@@ -21,7 +19,6 @@
   align-items: center;
 }
 
-/* ----- BAGIAN KIRI: Visual Grid ----- */
 .hero-visual-left {
   display: flex;
   justify-content: flex-end;
@@ -29,20 +26,16 @@
 
 .clean-grid {
   display: grid;
-  /* Ukuran kolom tetap */
+
   grid-template-columns: 200px 240px;
-  
-  /* --- PERBAIKAN 1: ALIGNMENT --- */
-  /* Kita paksa tinggi baris mengikuti kartu tertinggi (gambar) */
-  grid-template-rows: 260px 260px; 
-  /* Ini kuncinya: memaksa item yang lebih pendek (info card 210px) 
-     untuk berada persis di tengah-tengah baris 260px */
-  align-items: center; 
+
+  grid-template-rows: 260px 260px;
+
+  align-items: center;
 
   gap: 20px;
 }
 
-/* Base Card Style */
 .grid-card {
   border-radius: 32px;
   position: relative;
@@ -50,15 +43,14 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
-  /* Pastikan kartu mengisi penuh area yang diberikan grid */
-  width: 100%; 
+
+  width: 100%;
 }
 
 .grid-card:hover {
   transform: translateY(-5px);
 }
 
-/* --- 1. Top Left (Info) --- */
 .card-info-tl {
   background: #fff7ed;
   border: 1px solid #f1cfa6;
@@ -66,9 +58,8 @@
   justify-content: center;
   text-align: center;
   gap: 8px;
-  /* Tinggi tetap 210px, tapi sekarang dia akan ditengahkan oleh parent grid */
-  height: 210px; 
-  /* align-self: center; <- INI DIHAPUS KARENA SUDAH DIHANDLE PARENT */
+
+  height: 210px;
 }
 
 .card-title {
@@ -78,7 +69,6 @@
   margin-bottom: 8px;
 }
 
-/* Badge group umum (untuk yang atas) */
 .badge-group {
   display: flex;
   gap: 4px;
@@ -86,44 +76,46 @@
 }
 
 .badge {
-  padding: 5px 12px; /* Sedikit diperbesar paddingnya biar lebih rapi */
+  padding: 5px 12px;
   border-radius: 20px;
   font-size: 10px;
   font-weight: 700;
   color: white;
   letter-spacing: 0.5px;
-  white-space: nowrap; /* Mencegah teks badge terpotong */
+  white-space: nowrap;
 }
-.orange { background: #d67d52; }
-.brown { background: #7d5a3d; }
-.dark { background: #5c4029; }
+.orange {
+  background: #d67d52;
+}
+.brown {
+  background: #7d5a3d;
+}
+.dark {
+  background: #5c4029;
+}
 
-/* --- 2. Top Right (Image) --- */
 .card-img-tr {
   background: #eee;
-  /* Tinggi ini yang jadi patokan baris grid */
+
   height: 260px;
 }
 
-/* --- 3. Bottom Left (Info) --- */
 .card-info-bl {
   background: #fff7ed;
   border: 1px solid #f1cfa6;
   padding: 24px;
   justify-content: center;
   text-align: center;
-  gap: 4px; /* Gap antar elemen dikurangi sedikit */
+  gap: 4px;
   height: 210px;
 }
 
-/* --- PERBAIKAN 2: BADGE RAPI --- */
-/* Khusus untuk badge group di kartu kiri bawah */
 .card-info-bl .badge-group {
-    flex-wrap: wrap; /* Biarkan turun baris kalau tidak muat */
-    row-gap: 8px; /* Jarak antar baris badge */
-    column-gap: 6px; /* Jarak antar kolom badge */
-    margin-top: 12px; /* Tambah jarak dari teks di atasnya */
-    padding: 0 10px; /* Sedikit padding kiri kanan agar tidak mepet pinggir */
+  flex-wrap: wrap;
+  row-gap: 8px;
+  column-gap: 6px;
+  margin-top: 12px;
+  padding: 0 10px;
 }
 
 .big-num {
@@ -138,21 +130,17 @@
   font-weight: 500;
 }
 
-/* --- 4. Bottom Right (Image - Waste Pile) --- */
 .card-img-br {
   background: #333;
   height: 260px;
 }
 
-
-/* Image styling helpers */
 .fill-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* ----- BAGIAN KANAN: Teks ----- */
 .hero-content-right {
   display: flex;
   flex-direction: column;
@@ -196,7 +184,6 @@
   box-shadow: 0 6px 30px rgba(125, 90, 61, 0.35);
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
   .hero {
     padding-top: 120px;
@@ -226,13 +213,17 @@
   }
   .clean-grid {
     grid-template-columns: 1fr;
-    /* Di HP, biarkan tingginya otomatis */
+
     grid-template-rows: auto;
     width: 100%;
     gap: 20px;
   }
-  /* Di HP, kita beri tinggi fix yang sama untuk semua kartu agar rapi */
-  .grid-card, .card-info-tl, .card-info-bl, .card-img-tr, .card-img-br {
+
+  .grid-card,
+  .card-info-tl,
+  .card-info-bl,
+  .card-img-tr,
+  .card-img-br {
     height: 220px;
   }
 }

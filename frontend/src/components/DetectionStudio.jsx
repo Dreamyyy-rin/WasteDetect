@@ -48,7 +48,7 @@ const DetectionStudio = () => {
   };
 
   const handleDetection = () => {
-    // Placeholder for backend integration
+  
     console.log("Running detection with model:", selectedModel);
     console.log("Input type:", activeTab);
     console.log("File:", uploadedFile);
@@ -71,7 +71,7 @@ const DetectionStudio = () => {
         </div>
 
         <div className="detection-content">
-          {/* Model Selection */}
+  
           <div className="model-selection">
             <label className="model-label">Select Detection Model</label>
             <div className="model-options">
@@ -106,7 +106,6 @@ const DetectionStudio = () => {
             </div>
           </div>
 
-          {/* Tab System */}
           <div className="tab-system">
             <div className="tab-header">
               <button

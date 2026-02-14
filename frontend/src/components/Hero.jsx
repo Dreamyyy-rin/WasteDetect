@@ -47,7 +47,7 @@ const Hero = () => {
 
         <div className="hero-content-right">
           <h1 className="hero-title">
-            Terrasight: Sustainable Terra Through Smart Sight. <br />
+            TerraSight: Sustainable Terra Through Smart Sight. <br />
           </h1>
           <p className="hero-subtitle">
             Helping the world see waste clearly, TerraSight combines intelligent
