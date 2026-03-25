@@ -60,7 +60,7 @@ class ModelRegistry:
         if missing:
             missing_list = ", ".join(missing)
             raise FileNotFoundError(f"Missing model files for: {missing_list}")
-        # Explicit task avoids warnings for ONNX models without metadata.
+      
         self._models = {key: YOLO(str(path), task="detect") for key, path in paths.items()}
 
     def predict(self, model_key: str, image: np.ndarray) -> dict[str, Any]:

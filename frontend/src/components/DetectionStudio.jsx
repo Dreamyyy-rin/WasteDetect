@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./DetectionStudio.css";
 
-const apiBase = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(
-  /\/+$/,
-  "",
-);
+const apiBase = (
+  import.meta.env.VITE_API_URL || "http://localhost:8000"
+).replace(/\/+$/, "");
 
 const DetectionStudio = () => {
   const [activeTab, setActiveTab] = useState("image");
@@ -21,7 +20,6 @@ const DetectionStudio = () => {
   const [videoMetadata, setVideoMetadata] = useState(null);
   const changeFileInputRef = useRef(null);
 
-  // Reset state when switching tabs
   useEffect(() => {
     setUploadedFile(null);
     setPreviewUrl(null);
@@ -34,7 +32,6 @@ const DetectionStudio = () => {
     setVideoMetadata(null);
   }, [activeTab]);
 
-  // Video playback effect
   useEffect(() => {
     if (!isPlaying || videoFrames.length === 0) return;
 
@@ -47,19 +44,22 @@ const DetectionStudio = () => {
         }
         return next;
       });
-    }, 100); // ~10 FPS playback for smoother result
+    }, 100);
 
     return () => clearInterval(interval);
   }, [isPlaying, videoFrames.length]);
 
-  // Update detection result when frame index changes
   useEffect(() => {
-    if (videoFrames.length > 0 && videoFrames[currentFrameIndex] && videoMetadata) {
+    if (
+      videoFrames.length > 0 &&
+      videoFrames[currentFrameIndex] &&
+      videoMetadata
+    ) {
       setDetectionResult({
         ...videoFrames[currentFrameIndex],
         total_frames: videoMetadata.total_frames,
         processed_frames: videoFrames.length,
-        current_frame: currentFrameIndex + 1
+        current_frame: currentFrameIndex + 1,
       });
     }
   }, [currentFrameIndex, videoFrames, videoMetadata]);
@@ -100,7 +100,6 @@ const DetectionStudio = () => {
     const file = e.target.files[0];
     if (file) {
       handleFileUpload(file);
-      // Reset detection result when changing file
       setDetectionResult(null);
       setVideoFrames([]);
       setVideoMetadata(null);
@@ -115,7 +114,9 @@ const DetectionStudio = () => {
 
   const handleDetection = async () => {
     if (!uploadedFile) {
-      setError(`Please upload ${activeTab === "video" ? "a video" : "an image"} first`);
+      setError(
+        `Please upload ${activeTab === "video" ? "a video" : "an image"} first`,
+      );
       return;
     }
 
@@ -127,12 +128,10 @@ const DetectionStudio = () => {
       const formData = new FormData();
       formData.append("file", uploadedFile);
 
-      // Convert model name to backend format
       const modelKey =
         selectedModel === "YOLOv13" ? "yolo13n_clahe" : "yolo26s";
       formData.append("model", modelKey);
 
-      // Use different endpoint for video
       const endpoint = activeTab === "video" ? "detect-video" : "detect";
       const response = await fetch(`${apiBase}/${endpoint}`, {
         method: "POST",
@@ -144,20 +143,19 @@ const DetectionStudio = () => {
       }
 
       const data = await response.json();
-      
-      // For video, store all frames and display first one
+
       if (activeTab === "video" && data.frames && data.frames.length > 0) {
         setVideoFrames(data.frames);
         setCurrentFrameIndex(0);
         setVideoMetadata({
           total_frames: data.total_frames,
-          processed_frames: data.frames.length
+          processed_frames: data.frames.length,
         });
         setDetectionResult({
           ...data.frames[0],
           total_frames: data.total_frames,
           processed_frames: data.frames.length,
-          current_frame: 1
+          current_frame: 1,
         });
       } else {
         setDetectionResult(data);
@@ -399,10 +397,34 @@ const DetectionStudio = () => {
                             onClick={handleChangeFile}
                             title="Change file"
                           >
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M1 4V10H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                              <path d="M23 20V14H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                              <path d="M20.49 9C19.9828 7.56678 19.1209 6.28536 17.9845 5.27542C16.8482 4.26548 15.4745 3.55976 13.9917 3.22426C12.5089 2.88876 10.9652 2.93434 9.50481 3.35677C8.04437 3.77921 6.71475 4.56471 5.64 5.64L1 10M23 14L18.36 18.36C17.2853 19.4353 15.9556 20.2208 14.4952 20.6432C13.0348 21.0657 11.4911 21.1112 10.0083 20.7757C8.52547 20.4402 7.1518 19.7345 6.01547 18.7246C4.87913 17.7147 4.01717 16.4332 3.51 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <svg
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M1 4V10H7"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M23 20V14H17"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M20.49 9C19.9828 7.56678 19.1209 6.28536 17.9845 5.27542C16.8482 4.26548 15.4745 3.55976 13.9917 3.22426C12.5089 2.88876 10.9652 2.93434 9.50481 3.35677C8.04437 3.77921 6.71475 4.56471 5.64 5.64L1 10M23 14L18.36 18.36C17.2853 19.4353 15.9556 20.2208 14.4952 20.6432C13.0348 21.0657 11.4911 21.1112 10.0083 20.7757C8.52547 20.4402 7.1518 19.7345 6.01547 18.7246C4.87913 17.7147 4.01717 16.4332 3.51 15"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
                             </svg>
                           </button>
                           <input
@@ -464,30 +486,63 @@ const DetectionStudio = () => {
                                 alt="Detection Result"
                                 className="result-image"
                               />
-                              {activeTab === "video" && videoFrames.length > 0 && (
-                                <div className="video-overlay-controls">
-                                  <button
-                                    className="video-overlay-play-btn"
-                                    onClick={() => {
-                                      if (currentFrameIndex >= videoFrames.length - 1) {
-                                        setCurrentFrameIndex(0);
-                                      }
-                                      setIsPlaying(!isPlaying);
-                                    }}
-                                  >
-                                    {isPlaying ? (
-                                      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="12" y="8" width="6" height="24" fill="white" rx="2"/>
-                                        <rect x="22" y="8" width="6" height="24" fill="white" rx="2"/>
-                                      </svg>
-                                    ) : (
-                                      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 8L32 20L12 32V8Z" fill="white"/>
-                                      </svg>
-                                    )}
-                                  </button>
-                                </div>
-                              )}
+                              {activeTab === "video" &&
+                                videoFrames.length > 0 && (
+                                  <div className="video-overlay-controls">
+                                    <button
+                                      className="video-overlay-play-btn"
+                                      onClick={() => {
+                                        if (
+                                          currentFrameIndex >=
+                                          videoFrames.length - 1
+                                        ) {
+                                          setCurrentFrameIndex(0);
+                                        }
+                                        setIsPlaying(!isPlaying);
+                                      }}
+                                    >
+                                      {isPlaying ? (
+                                        <svg
+                                          width="40"
+                                          height="40"
+                                          viewBox="0 0 40 40"
+                                          fill="none"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <rect
+                                            x="12"
+                                            y="8"
+                                            width="6"
+                                            height="24"
+                                            fill="white"
+                                            rx="2"
+                                          />
+                                          <rect
+                                            x="22"
+                                            y="8"
+                                            width="6"
+                                            height="24"
+                                            fill="white"
+                                            rx="2"
+                                          />
+                                        </svg>
+                                      ) : (
+                                        <svg
+                                          width="40"
+                                          height="40"
+                                          viewBox="0 0 40 40"
+                                          fill="none"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M12 8L32 20L12 32V8Z"
+                                            fill="white"
+                                          />
+                                        </svg>
+                                      )}
+                                    </button>
+                                  </div>
+                                )}
                             </div>
                           </div>
 

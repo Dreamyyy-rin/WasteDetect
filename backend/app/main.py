@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 try:
     from .inference import ModelRegistry, decode_image
-except ImportError:  # Allows running `python main.py` directly.
+except ImportError: 
     from inference import ModelRegistry, decode_image
 
 app = FastAPI(title="Waste Detection API")
@@ -58,7 +58,7 @@ async def detect_video(
     video_bytes = await file.read()
     video_data = io.BytesIO(video_bytes)
     
-    # Write to temp file for OpenCV
+   
     import tempfile
     with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
         tmp.write(video_bytes)
@@ -110,7 +110,7 @@ async def detect_stream(websocket: WebSocket) -> None:
                 data = await websocket.receive_text()
                 frame_count += 1
             except Exception as e:
-                # Client disconnected or connection closed
+                
                 print(f"[WebSocket] Receive error (frame {frame_count}): {e}")
                 break
             

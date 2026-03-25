@@ -7,49 +7,29 @@ import vs from "../assets/ori vs clahe.png";
 import waste3 from "../assets/waste3.jpg";
 import waste4 from "../assets/waste4.jpg";
 import waste5 from "../assets/waste5.jpg";
+import PhotoCard from "../components/PhotoCard";
+import PageHero from "../components/PageHero";
 
 const Photos = () => {
   return (
     <div className="photos-page">
-      <section className="photos-hero">
-        <div className="photos-container">
-          <h1 className="page-title">Photos</h1>
-          <p className="page-subtitle">
-            Explore our waste detection results
-          </p>
-        </div>
-      </section>
+      <PageHero
+        sectionClassName="photos-hero"
+        containerClassName="photos-container"
+        title="Photos"
+        subtitle="Explore our waste detection results"
+      />
 
       <section className="photos-content">
         <div className="photos-container">
           <div className="photos-grid">
-            <div className="photo-card">
-              <img src={vs}  />
-            </div>
-
-            <div className="photo-card">
-              <img src={plastic}  />
-            </div>
-
-            <div className="photo-card">
-              <img src={waste3}  />
-            </div>
-
-            <div className="photo-card">
-              <img src={glass}  />
-            </div>
-
-            <div className="photo-card">
-              <img src={paper}  />
-            </div>
-
-            <div className="photo-card">
-              <img src={waste4}  />
-            </div>
-
-            <div className="photo-card">
-              <img src={waste5}  />
-            </div>
+            <PhotoCard src={vs} />
+            <PhotoCard src={plastic} />
+            <PhotoCard src={waste3} />
+            <PhotoCard src={glass} />
+            <PhotoCard src={paper} />
+            <PhotoCard src={waste4} />
+            <PhotoCard src={waste5} />
           </div>
         </div>
       </section>
